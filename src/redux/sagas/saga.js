@@ -17,7 +17,7 @@ function* initHeroAsync() {
   const hash = md5(`${timeForHash}862eb03accd1c7f464ce0d0f904bbd69c30d64a0f54fb7640a8225a2b6890a0f411057a4`)
   console.log(hash);
     const heros = yield call(fetchData, {
-      url: `http://developer.marvel.com/v1/public/characters`,
+      url: `https://developer.marvel.com/v1/public/characters`,
       method: "GET",
       
     })
