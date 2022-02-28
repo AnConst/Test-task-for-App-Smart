@@ -6,7 +6,6 @@ import md5 from "js-md5"
 async function fetchData({ url, method, params, credentials = 'include'}) {
   const response = await fetch(url, {
     method,
-    params,
     credentials,
   });
   return await response.json();
@@ -17,13 +16,8 @@ function* initHeroAsync() {
   const hash = md5(`${timeForHash}862eb03accd1c7f464ce0d0f904bbd69c30d64a0f54fb7640a8225a2b6890a0f411057a4`)
   console.log(hash);
     const heros = yield call(fetchData, {
-      url: `https://developer.marvel.com/v1/public/characters`,
+      url: `https://developer.marvel.com/v1/public/characters?ts=${timeForHash}&apikey="f54fb7640a8225a2b6890a0f411057a4"&hash=${hash}`,
       method: "GET",
-      params: {
-        "ts": timeForHash,
-        "apikey": "f54fb7640a8225a2b6890a0f411057a4",
-        "hash": hash,
-      }
     })
     yield put(initHero(heros))
 }
