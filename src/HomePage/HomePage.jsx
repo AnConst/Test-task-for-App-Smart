@@ -7,6 +7,7 @@ function HomePage() {
   const dispatch = useDispatch();
 
   useEffect(()=> {
+    console.log("HI");
     dispatch(initHeroFetchAC())
   },[dispatch]);
 
