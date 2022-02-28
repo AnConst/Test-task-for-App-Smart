@@ -1,9 +1,9 @@
-import { call, put, takeEvery } from "redux-saga/effects"
-import { INIT_HERO_FETCH } from "../actionTypes/heroAT"
-import { initHero } from "../actionCreators/heroAC"
-import md5 from "js-md5"
+import { call, put, takeEvery } from "redux-saga/effects";
+import { INIT_HERO_FETCH } from "../actionTypes/heroAT";
+import { initHero } from "../actionCreators/heroAC";
+import md5 from "js-md5";
 
-async function fetchData({ url, method, params, credentials = 'include'}) {
+async function fetchData({ url, method, params, credentials = "include" }) {
   const response = await fetch(url, {
     method,
     credentials,
@@ -13,15 +13,19 @@ async function fetchData({ url, method, params, credentials = 'include'}) {
 
 function* initHeroAsync() {
   let timeForHash = new Date().getTime();
-  const hash = md5(`${timeForHash}862eb03accd1c7f464ce0d0f904bbd69c30d64a0f54fb7640a8225a2b6890a0f411057a4`)
+  const hash = md5(
+    `${timeForHash}862eb03accd1c7f464ce0d0f904bbd69c30d64a0f54fb7640a8225a2b6890a0f411057a4`
+  );
   console.log(hash);
-    const heros = yield call(fetchData, {
-      url: `https://developer.marvel.com/v1/public/characters?ts=${timeForHash}&apikey="f54fb7640a8225a2b6890a0f411057a4"&hash=${hash}`,
-      method: "GET",
-    })
-    yield put(initHero(heros))
+  const heros = yield call(fetchData, {
+    url: `https:developer.marvel.com/v1/public/characters?${new URLSearchParams(
+      { ts: timeForHash, apiKey: "f54fb7640a8225a2b6890a0f411057a4", hash }
+    )}`,
+    method: "GET",
+  });
+  yield put(initHero(heros));
 }
 
 export function* sagaWatcher() {
-  yield takeEvery(INIT_HERO_FETCH, initHeroAsync)
+  yield takeEvery(INIT_HERO_FETCH, initHeroAsync);
 }
